@@ -1,0 +1,74 @@
+.NewListComponent_container{
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    margin: 20px;
+    
+}
+
+.NewListComponent_LeftColumn{
+    width: 80%;
+    background-color: white;
+    padding: 20px;
+    height: calc(100vh - 150px);
+}
+
+.NewListComponent_LeftColumn input{
+    padding: 10px;
+    width: 100%;
+    background-color: #F1F1F1;
+    border-radius: 5px;
+    border: none;
+    margin: 10px 0px;
+    
+
+}
+
+.filterBox{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #F1F1F1;
+    margin: 10px 0px;
+    padding: 30px;
+    
+}
+
+.NewListComponent_RightColumn{
+    width: 20%;
+    background-color: white;
+    padding: 20px;
+    height: calc(100vh - 150px);
+}
+
+.NewListComponent_RightColumn h2{
+    color: #001E38;
+    
+}
+
+.NewListComponent_RightColumn p{
+    color:'#001E38';
+    margin: 10px 0px;
+}
+
+.NewListComponent_RightColumn h3{
+    color: #001E38;
+    margin: 10px 0px;
+    font-weight: 400;
+}
+
+
+
+.NewListComponent_RightColumn_icon{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.NewListComponent_RightColumn_icon svg{
+    color: #B1B1B1;
+    font-size: 22px;
+    margin-right: 10px;
+}

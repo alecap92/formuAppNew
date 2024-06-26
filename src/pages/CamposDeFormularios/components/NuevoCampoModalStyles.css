@@ -1,0 +1,28 @@
+.NuevoCampoModal_content {
+    padding: 25px; /* Añadir padding a los lados del contenido */
+}
+
+.NuevoCampoModal_content input, .NuevoCampoModal_content select {
+    border: none;
+    padding: 10px;
+    width: calc(100% - 20px); /* Ajustar el ancho para tener en cuenta el padding y el margen */
+    background-color: #E0E0E0;
+    border-radius: 5px;
+    margin: 5px 0; /* Ajustar el margen para más espacio entre elementos */
+}
+
+.NuevoCampoModal_content label {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.NuevoCampoModal_personalizada {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+}
+
+.NuevoCampoModal_personalizada p {
+    font-style: italic;
+    margin-right: 10px; /* Añadir margen derecho para separar el texto del input */
+}

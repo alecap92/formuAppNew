@@ -1,0 +1,105 @@
+.side-menu {
+    width: 250px;
+    background: rgb(0,30,56);
+    background: linear-gradient(90deg, rgba(0,30,56,1) 6%, rgba(0,85,158,1) 100%);
+    color: white;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 20px;
+    margin-bottom: 20px;
+    width: 100%;
+    text-align: center;
+}
+
+.logo img {
+    width: 150px;
+    margin-right: 10px;
+}
+
+nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+nav ul .menu-item {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+nav ul .menu-item:hover {
+    background-color: #2a4a6e;
+}
+
+.menu-section-title {
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    padding: 10px 20px;
+    color: #999;
+    cursor: default;
+    background: none;
+}
+
+nav ul .menu-item span {
+    margin-left: 10px;
+}
+
+nav ul .menu-item svg {
+    font-size: 1.2rem;
+}
+
+nav ul .menu-item a {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    width: 100%;
+}
+
+nav ul .menu-item.active {
+    background-color: #00447E;
+}
+
+nav ul .menu-item.active a {
+    color: #F65232;
+}
+
+.footer-section {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.footer-section li {
+    display: flex;
+    align-items: center;
+    padding: 10px 20px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.footer-section li:hover {
+    background-color: #2a4a6e;
+}
+
+.footer-section li svg {
+    margin-right: 10px;
+}
+
+.footer-section li a {
+    display: flex;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    width: 100%;
+}

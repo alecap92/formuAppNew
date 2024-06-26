@@ -1,0 +1,63 @@
+.HistorialModalStyle_container{
+    width: 100vw;
+    height: 100vh;
+    background-color: rgba(0,0,0,0.7);
+    position: absolute;
+    top: 0;
+    left: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.3s;
+}
+
+.HistorialModalStyle_box{   
+    background-color: white;
+    border-radius: 10px;
+    width: 60%;
+}
+
+.HistorialModalStyle_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #001E38;
+    color: white;
+    padding: 20px;
+}
+
+.HistorialModalStyle_opciones{
+    display: flex;
+    color: #00447E;
+    padding: 20px;
+}
+
+.HistorialModalStyle_opciones .form-control{
+    margin-right: 10px;
+
+}
+
+.HistorialModalStyle_document{
+    background-color: white;
+    padding: 20px;
+   
+}
+
+
+.HistorialModalStyle_document_box{
+    background-color: grey;
+    min-height: 200px;
+    padding: 20px;
+    margin: 20px;
+}
+
+.spinner {
+    display: inline-block;
+    animation: spin 1s linear infinite;
+    font-size: 2rem; /* Puedes ajustar el tamaño según tus necesidades */
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }

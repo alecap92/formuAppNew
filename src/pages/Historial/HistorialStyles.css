@@ -1,0 +1,44 @@
+.Historial_container{
+    background-color: white;
+    margin-top: 50px;
+    /* width: 100%; */
+    padding-top: 20px;
+    margin: 40px;
+    border-radius: 10px;
+    
+}
+
+.Historial_container_opciones{
+    display: flex;
+    margin: 20px;
+    color:#00447E
+}
+
+.Historial_container_opciones .form-group{
+    margin-right: 20px;
+}
+
+.Historial_container_search{
+    display: flex;
+    align-items: center;
+    border: 1px solid grey;
+    margin: 20px;
+    padding-left: 20px;
+    border-radius: 10px;
+    
+}
+
+.Historial_container_search input{
+    border:none;
+    padding: 10px;
+}
+
+.Historial_Cards{
+    padding: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    min-height: 50vh;
+    max-height: 1000px;
+    overflow: auto;
+    z-index: 1;
+}

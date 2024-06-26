@@ -1,0 +1,54 @@
+.Plantillas_container {
+    margin: 20px;
+    padding: 20px;
+    background-color: white;
+    height: 800px;
+  }
+  
+  .Plantillas_search {
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+  }
+  
+  .Plantillas_search input {
+    border: none;
+    padding: 5px;
+    width: 100%;
+    margin-left: 5px;
+  }
+  
+  .Plantillas_search input:focus {
+    outline: none;
+  }
+  
+  #Plantillas_grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+    overflow-y: auto;
+    padding: 20px 0;
+    max-height: 100%;
+  }
+  
+  @media (min-width: 1024px) {
+    #Plantillas_grid {
+      grid-template-columns: repeat(4, 1fr);
+    }
+  }
+  
+  #Plantillas_grid::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  #Plantillas_grid::-webkit-scrollbar-thumb {
+    background-color: rgba(0, 0, 0, 0.2);
+    border-radius: 10px;
+  }
+  
+  #Plantillas_grid::-webkit-scrollbar-track {
+    background-color: rgba(0, 0, 0, 0.1);
+  }
+  

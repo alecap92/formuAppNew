@@ -1,0 +1,129 @@
+.container {
+  display: flex;
+  height: 100vh;
+  width: 100%;
+}
+
+.form{
+    padding: 50px;
+    width: 80%;
+}
+
+
+.form input{
+    width: 100%;
+    background-color: #F1F1F1;
+    border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    padding: 5px;
+}
+
+.firstColumn{
+    width: 50vw;
+    background-color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.form-group{
+    margin: 20px 0px;
+
+}
+
+
+.rememberPassword{
+    display: flex;
+    margin: 20px 0px;
+}
+
+.rememberPassword input{
+    margin-right: 10px;
+    font-size: 15px;
+    width: 20px;
+}
+
+.rememberPassword label{
+    font-size: 15px;
+}
+
+.loginButton{
+    background-color: #FC5130;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 18px;
+    width: 100%;
+    cursor: pointer;
+
+}
+
+.loginButton:hover{
+    background-color: #de4a2c;
+    transition: ease all 0.3s;
+}
+
+.GoogleButton{ 
+    border: 1px solid #00223E;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 18px;
+    width: 80%;
+    cursor: pointer;
+}
+
+.GoogleButton:hover{
+    background-color: #00223E;
+    color: white;
+    transition: ease all 0.3s;
+}
+
+.secondColumn{
+    background: rgb(0,30,56);
+    background: linear-gradient(90deg, rgba(0,30,56,1) 6%, rgba(0,85,158,1) 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    color: white;
+    padding: 50px;
+    width: 50vw;
+}
+
+.secondColumn h1{
+    font-size: 30px;
+    margin-bottom: 20px;
+    text-align: center;
+    font-weight: 500;
+}
+
+.secondColumn p{
+    font-size: 18px;
+    margin-bottom: 20px;
+    padding: 0px 80px;
+    text-align: center;
+    font-weight: 300;
+}
+
+.secondColumn button{
+    background-color: #FC5130;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 18px;
+    width: 30%;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+.secondColumn button:hover{
+    background-color: #de4a2c;
+    transition: ease all 0.3s;
+}

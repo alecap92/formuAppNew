@@ -1,0 +1,130 @@
+.CrearPlantilla_container {
+    display: flex;
+    margin: 20px;
+    padding: 20px;
+    gap: 20px;
+    max-height: 800px;
+    overflow: auto;
+  }
+  
+  .CrearPlantilla_box {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+  }
+  
+  .CrearPlantilla_box:first-child {
+    width: 70%;
+  }
+  
+  .CrearPlantilla_box:last-child {
+    width: 30%;
+  }
+  
+  .CrearPlantilla_box label {
+    font-weight: 600;
+    color: #001E38;
+  }
+  
+  .CrearPlantilla_pdf_button {
+    background-color: #F65232;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 0;
+    cursor: pointer;
+    width: 20%;
+  }
+  
+  .CrearPlantilla_box input {
+    font-size: 17px;
+    width: 100%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 5px;
+    margin: 10px 0;
+  }
+  
+  .input-nombre-etapa {
+    margin: 15px 0;
+  }
+  
+  .CrearPlantilla_box h2 {
+    color: #B1B1B1;
+    font-weight: 300;
+    margin-bottom: 20px;
+  }
+  
+  .CrearPlantilla_box h3 {
+    color: #001E38;
+    font-weight: 600;
+    margin-top: 20px;
+  }
+  
+  .CrearPlantilla_box p {
+    color: #001E38;
+    font-weight: 300;
+    margin-top: 10px;
+  }
+  
+  .etapa-container {
+    margin-top: 20px;
+    border: 1px solid #E4E4E4;
+    border-radius: 5px;
+    overflow: hidden;
+  }
+  
+  .etapa-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #F7F7F7;
+    padding: 10px;
+    cursor: pointer;
+    font-weight: 600;
+    color: #00447E;
+    position: relative;
+  }
+  
+  .etapa-header:hover .dropdown-icon {
+    display: none;
+  }
+  
+  .etapa-header:hover .delete-icon {
+    display: block;
+  }
+  
+  .etapa-header .dropdown-icon {
+    margin-left: 10px;
+  }
+  
+  .etapa-header .delete-icon {
+    color: red;
+    cursor: pointer;
+    display: none;
+    margin-left: 10px;
+  }
+  
+  .CrearPlantilla_agregarEtapa {
+    background-color: #707070;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 0;
+    cursor: pointer;
+    width: 20%;
+  }
+  
+  .CrearPlantilla_guardar {
+    background-color: #F65232;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 20px 0;
+    cursor: pointer;
+    width: 20%;
+    text-align: center;
+  }

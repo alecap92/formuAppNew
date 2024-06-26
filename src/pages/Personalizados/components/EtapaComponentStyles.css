@@ -1,0 +1,97 @@
+.EtapaComponent_container {
+    width: 100%;
+    background-color: #F7F7F7;
+    border-radius: 5px;
+    padding: 20px;
+    margin: 30px 0px;
+  }
+  
+  .EtapaComponent_container table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .EtapaComponent_container table thead {
+    background-color: #E4E4E4;
+    color: #707070;
+  }
+  
+  .EtapaComponent_container table thead th {
+    padding: 10px;
+  }
+  
+  .EtapaComponent_container table tbody {
+    background-color: white;
+  }
+  
+  .EtapaComponent_container table tbody tr {
+    border-bottom: 1px solid #ccc;
+  }
+  
+  .EtapaComponent_container table tbody tr:last-child {
+    border-bottom: none;
+  }
+  
+  .EtapaComponent_container table tbody td {
+    padding: 10px;
+    text-align: center;
+    vertical-align: middle;
+  }
+  
+  .action-cell {
+    position: relative;
+  }
+  
+  .delete-icon {
+    color: red;
+    cursor: pointer;
+    display: none;
+  }
+  
+  .EtapaComponent_container table tbody tr:hover .delete-icon {
+    display: block;
+  }
+  
+  .EtapaComponent_agregarCampo {
+    color: #FC5130;
+    font-weight: 300;
+    margin: 20px 0px;
+    cursor: pointer;
+  }
+  
+  .EtapaComponent_agregarCampo:hover {
+    color: #00447E;
+  }
+  
+  .EtapaComponent_agregarEtapa {
+    background-color: #707070;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 0;
+    cursor: pointer;
+    width: 20%;
+  }
+  
+  .EtapaComponent_crearDocumento {
+    background-color: #F65232;
+    color: white;
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    margin: 10px 0;
+    cursor: pointer;
+    width: 20%;
+  }
+  
+  .custom-select {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: white;
+    color: #707070;
+    font-size: 17px;
+  }
+  

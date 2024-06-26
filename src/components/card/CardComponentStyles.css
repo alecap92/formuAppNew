@@ -1,0 +1,98 @@
+.CardComponent_wrapper {
+    position: relative; /* Para que el modal se posicione relativamente a este contenedor */
+  }
+  
+  .CardComponent_container {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 15px;
+  }
+  
+  .CardComponent_container:hover {
+    box-shadow: 0px 0px 10px 0px #D9D9D9;
+    transition: 0.3s;
+    background-color: #001E38;
+    /* color: white; */
+    cursor: pointer;
+  }
+  
+  .CardComponent_row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+  }
+  
+  .CardComponent_container h2 {
+    font-size: 17px;
+  }
+  
+  .CardComponent_container p {
+    font-size: 13px;
+    padding: 5px 0px;
+  }
+  
+  .CardComponent_container hr {
+    border: 1px solid #D9D9D9;
+    margin: 5px 0px;
+  }
+  
+  .CardComponent_row_pdf_container {
+    background-color: #001E38;
+    border-radius: 100%;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .CardComponent_row_pdf_container svg {
+    color: white;
+    font-size: 25px;
+  }
+  
+  .CardComponent_row svg {
+    font-size: 25px;
+  }
+  
+  /* Estilos para el modal */
+  .CardActionsModal_container {
+    position: absolute;
+    right: 0;
+    top: 50px; /* Ajusta según sea necesario */
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    border: 1px solid #D9D9D9;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .CardActionsModal_list {
+    padding: 10px 0;
+  }
+  
+  .CardActionsModal_action {
+    display: flex;
+    align-items: center;
+    padding: 10px 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .CardActionsModal_action:hover {
+    background-color: #f1f1f1;
+  }
+  
+  .CardActionsModal_action p {
+    margin-left: 10px;
+    font-size: 14px;
+    color: #333;
+  }
+  
+ 

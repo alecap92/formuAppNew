@@ -1,0 +1,25 @@
+.UsuariosComponentXModal_container{
+    position: absolute;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 0, 0, 0.7);
+    width: 100vw;
+    height: 100vh;
+}
+
+.UsuariosComponentXModal_box{
+    background-color: white;
+    border-radius: 5px;
+    padding: 20px;
+    max-width: 500px;
+    
+}
+
+.UsuariosComponentXModal_box input{
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+}

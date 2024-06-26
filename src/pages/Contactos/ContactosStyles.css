@@ -1,0 +1,23 @@
+.Contactos_container{
+    margin: 20px;
+}
+
+.Contactos_buscador{
+    border: 1px solid #BDBDBD;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.Contactos_buscador input{
+ border:none;
+    padding: 5px;   
+    width: 100%;
+    
+}
+
+.Contactos_buscador input:focus{
+    outline: none;
+}
