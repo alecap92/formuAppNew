@@ -41,7 +41,6 @@ export const loginRequest = async (email: string, password: string) => {
 };
 
 export const validateTokenRequest = async (token: string) => {
-  console.log(token, 1);
   try {
     const response = await apiClient.get("/user/me", {
       headers: {

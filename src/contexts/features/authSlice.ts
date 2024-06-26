@@ -10,6 +10,10 @@ import { auth, googleProvider } from "../../services/firebase/firebaseConfig";
 import { signInWithPopup } from "firebase/auth";
 
 interface ApiUser {
+  state: string | undefined;
+  city: string | undefined;
+  address: string | undefined;
+  companyName: string | undefined;
   id: string;
   email: string;
   first_name: string;
@@ -65,9 +69,12 @@ export const loginWithEmail =
         birth_date: data.birth_date,
         document_expedition_date: data.document_expedition_date,
         token: data.token,
+        state: undefined,
+        city: undefined,
+        address: undefined,
+        companyName: undefined,
       };
       dispatch(setUser(userData));
-      localStorage.setItem("user", JSON.stringify(userData));
       if (remember) {
         Cookies.set("authorization", data.token, { expires: 7 });
       } else {
@@ -92,30 +99,31 @@ export const registerWithEmail =
         birth_date: data.birth_date,
         document_expedition_date: data.document_expedition_date,
         token: data.token,
+        state: undefined,
+        city: undefined,
+        address: undefined,
+        companyName: undefined,
       };
       dispatch(setUser(userData));
-      localStorage.setItem("user", JSON.stringify(userData));
       Cookies.set("authorization", data.token, { expires: 7 });
     }
   };
 
 export const validateSession = (): any => async (dispatch: AppDispatch) => {
   const token = Cookies.get("authorization");
-  console.log(token);
+
   if (token) {
     try {
       const data = await validateTokenRequest(token);
       console.log(data);
-      const storedUser = localStorage.getItem("user");
-      if (storedUser) {
-        const parsedUser = JSON.parse(storedUser) as ApiUser;
-        parsedUser.token = token;
-        dispatch(setUser(parsedUser));
-      }
+      const user: ApiUser = { ...data, token };
+      dispatch(setUser(user));
     } catch (error) {
       console.error("Error validating token:", error);
       dispatch(clearUser());
     }
+  } else {
+    dispatch(clearUser());
   }
 };
 
@@ -137,9 +145,12 @@ export const registerOrLoginWithGoogle =
         birth_date: null,
         document_expedition_date: null,
         token: token,
+        state: undefined,
+        city: undefined,
+        address: undefined,
+        companyName: undefined,
       };
       dispatch(setUser(userData));
-      localStorage.setItem("user", JSON.stringify(userData));
       Cookies.set("authorization", token, { expires: 7 });
     } catch (error) {
       console.error("Error during Google authentication:", error);
@@ -148,7 +159,6 @@ export const registerOrLoginWithGoogle =
 
 export const logout = (): any => async (dispatch: AppDispatch) => {
   dispatch(clearUser());
-  localStorage.removeItem("user");
   Cookies.remove("authorization");
 };
 

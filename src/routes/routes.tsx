@@ -42,7 +42,10 @@ const AppRoutes: React.FC = () => {
           path="/formatos"
           element={<ProtectedRoute element={<Formatos />} />}
         />
-        <Route path="/formatos/:id" element={<Stepper />} />
+        <Route
+          path="/formatos/:id"
+          element={<ProtectedRoute element={<Stepper />} />}
+        />
         <Route
           path="/contactos"
           element={<ProtectedRoute element={<Contactos />} />}

@@ -16,7 +16,7 @@
     font-weight: bold;
 }
 
-.PerfilComponent_form .form-group input{
+.PerfilComponent_form .form-group input, .PerfilComponent_form .form-group select{
     width: 100%;
     padding: 10px;
     border-radius: 5px;
