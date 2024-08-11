@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import {
   registerWithEmail,
   registerOrLoginWithGoogle,
-} from "../../contexts/features/authSlice";
+} from "../../services/auth/authService";
 import { addAlert } from "../../contexts/features/alertSlice";
 
 const RegisterPage: React.FC = () => {
@@ -19,7 +19,9 @@ const RegisterPage: React.FC = () => {
   const handleEmailRegister = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(registerWithEmail(email, password, firstName, lastName));
+      await dispatch(
+        registerWithEmail(email, password, firstName, lastName, true)
+      );
       dispatch(
         addAlert({
           id: new Date().toISOString(),
@@ -83,21 +85,21 @@ const RegisterPage: React.FC = () => {
 
           <form action="" className="form" onSubmit={handleEmailRegister}>
             <div className="form-group">
-              <label htmlFor="first_name">Nombre</label>
+              <label htmlFor="firstName">Nombre</label>
               <input
                 type="text"
-                id="first_name"
-                name="first_name"
+                id="firstName"
+                name="firstName"
                 value={firstName}
                 onChange={(e) => setFirstName(e.target.value)}
               />
             </div>
             <div className="form-group">
-              <label htmlFor="last_name">Apellidos</label>
+              <label htmlFor="lastName">Apellidos</label>
               <input
                 type="text"
-                id="last_name"
-                name="last_name"
+                id="lastName"
+                name="lastName"
                 value={lastName}
                 onChange={(e) => setLastName(e.target.value)}
               />

@@ -1,44 +1,90 @@
-.Historial_container{
-    background-color: white;
-    margin-top: 50px;
-    /* width: 100%; */
-    padding-top: 20px;
-    margin: 40px;
-    border-radius: 10px;
-    
+.Historial_container {
+  background-color: white;
+  margin-top: 50px;
+  padding-top: 20px;
+  margin: 40px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  height: calc(100vh - 160px);
 }
 
-.Historial_container_opciones{
-    display: flex;
-    margin: 20px;
-    color:#00447E
+.Historial_container_search {
+  display: flex;
+  align-items: center;
+  border: 1px solid grey;
+  margin: 20px;
+  padding-left: 20px;
+  border-radius: 10px;
 }
 
-.Historial_container_opciones .form-group{
-    margin-right: 20px;
+.Historial_container_search input {
+  border: none;
+  padding: 10px;
+  width: 100%;
+  outline: none;
 }
 
-.Historial_container_search{
-    display: flex;
-    align-items: center;
-    border: 1px solid grey;
-    margin: 20px;
-    padding-left: 20px;
-    border-radius: 10px;
-    
+.Hitorial_Table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  overflow-y: auto;
 }
 
-.Historial_container_search input{
-    border:none;
-    padding: 10px;
+.Hitorial_Table th {
+  background-color: #00447e;
+  color: white;
+  padding: 10px;
 }
 
-.Historial_Cards{
-    padding: 20px;
-    display: flex;
-    flex-wrap: wrap;
-    min-height: 50vh;
-    max-height: 1000px;
-    overflow: auto;
-    z-index: 1;
+.Hitorial_Table td {
+  padding: 5px;
+  border-bottom: 1px solid rgb(204, 204, 204);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: center;
+}
+
+.Hitorial_Table tr:hover {
+  background-color: #e3e3e3;
+  cursor: pointer;
+}
+
+.pagination-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-top: 1px solid #ddd;
+}
+
+.pagination-controls button {
+  padding: 5px 10px;
+  margin: 0 5px;
+}
+
+.items-per-page {
+  display: flex;
+  align-items: center;
+}
+
+.items-per-page select {
+  margin-left: 5px;
+  padding: 5px;
+}
+
+.Historial__trashIcon {
+  color: red;
+  cursor: pointer;
+  font-size: 22px;
+}
+
+.Hitorial_Table tr.checked-row {
+  background-color: #d1e7ff; /* Color de fondo para filas seleccionadas */
+}
+
+.Hitorial_Table tr.checked-row:hover {
+  background-color: #b6d4fe; /* Color de fondo cuando se pasa el mouse sobre una fila seleccionada */
 }

@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface Alert {
-  id: string;
+  id?: string;
   message: string;
   type: "success" | "error" | "warning" | "info";
 }

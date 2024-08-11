@@ -1,6 +1,6 @@
 // src/routes.tsx
 import React from "react";
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import LoginPage from "../pages/Login/LoginPage";
 import ErrorPage from "../pages/ErrorPage";
 import RegisterPage from "../pages/Register/RegisterPage";
@@ -14,16 +14,16 @@ import Contactos from "../pages/Contactos/Contactos";
 import CamposDeFormularios from "../pages/CamposDeFormularios/CamposDeFormularios";
 import Stepper from "../pages/Stepper/Stepper";
 import ListasDeContactos from "../pages/ListasDeContactos/ListasDeContactos";
+import PerfilPage from "../pages/Perfil/PerfilPage";
 
 const AppRoutes: React.FC = () => {
   return (
-    <Router>
+    <>
       <Routes>
-        <Route path="/" element={<h1>Home</h1>} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route
-          path="/organizacion"
+          path="/"
           element={<ProtectedRoute element={<Organizacion />} />}
         />
         <Route
@@ -59,10 +59,14 @@ const AppRoutes: React.FC = () => {
           path="/campos-de-formularios"
           element={<ProtectedRoute element={<CamposDeFormularios />} />}
         />
+        <Route
+          path="/perfil"
+          element={<ProtectedRoute element={<PerfilPage />} />}
+        />
 
         <Route path="*" element={<ErrorPage />} />
       </Routes>
-    </Router>
+    </>
   );
 };
 

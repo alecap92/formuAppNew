@@ -17,7 +17,7 @@ const AlertContainer: React.FC = () => {
       {alerts.map((alert) => (
         <AlertComponent
           key={alert.id}
-          id={alert.id}
+          id={alert.id || ""}
           title={alert.type.toUpperCase()}
           description={alert.message}
           type={alert.type}

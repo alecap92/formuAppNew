@@ -1,130 +1,202 @@
 .CrearPlantilla_container {
-    display: flex;
-    margin: 20px;
-    padding: 20px;
-    gap: 20px;
-    max-height: 800px;
-    overflow: auto;
+  display: flex;
+  margin: 20px;
+  padding: 20px;
+  gap: 20px;
+  height: calc(100vh - 100px);
+  overflow: auto;
+}
+
+.CrearPlantilla_box {
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+  overflow: auto;
+}
+
+.CrearPlantilla_box:first-child {
+  width: 70%;
+}
+
+.CrearPlantilla_box:last-child {
+  width: 30%;
+}
+
+.CrearPlantilla_box label {
+  font-weight: 600;
+  color: #001e38;
+}
+
+.CrearPlantilla_pdf_button {
+  background-color: #f65232;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin: 10px 0;
+  cursor: pointer;
+  width: 20%;
+}
+
+.CrearPlantilla_box input,
+select {
+  font-size: 17px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  margin: 10px 0;
+}
+
+.input-nombre-etapa {
+  margin: 15px 0;
+}
+
+.CrearPlantilla_box h2 {
+  color: #b1b1b1;
+  font-weight: 300;
+  margin-bottom: 20px;
+}
+
+.CrearPlantilla_box h3 {
+  color: #001e38;
+  font-weight: 600;
+  margin-top: 20px;
+}
+
+.CrearPlantilla_box p {
+  color: #001e38;
+  font-weight: 300;
+  margin-top: 10px;
+}
+
+.etapa-container {
+  margin-top: 20px;
+  border: 1px solid #e4e4e4;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+.etapa-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #f7f7f7;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: 600;
+  color: #00447e;
+  position: relative;
+}
+
+.etapa-header:hover .dropdown-icon {
+  display: none;
+}
+
+.etapa-header:hover .delete-icon {
+  display: block;
+}
+
+.etapa-header .dropdown-icon {
+  margin-left: 10px;
+}
+
+.etapa-header .delete-icon {
+  color: red;
+  cursor: pointer;
+  display: none;
+  margin-left: 10px;
+}
+
+.CrearPlantilla_agregarEtapa {
+  background-color: #707070;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin: 10px 0;
+  cursor: pointer;
+  width: 20%;
+}
+
+.CrearPlantilla_guardar {
+  background-color: #f65232;
+  color: white;
+  padding: 10px;
+  border: none;
+  border-radius: 5px;
+  margin: 20px 0;
+  cursor: pointer;
+  width: 20%;
+  text-align: center;
+}
+
+/* Loading */
+.CrearPlantilla_loading {
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.7);
+  top: 0;
+  left: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  width: 100vw;
+  flex-direction: column; /* Para que los elementos se apilen verticalmente */
+  z-index: 1000;
+}
+
+.CrearPlantilla_loading img {
+  width: 100px;
+  animation: spin 2s linear infinite;
+}
+
+.CrearPlantilla_loading p {
+  color: white;
+  font-size: 30px;
+  margin-top: 20px;
+}
+
+.CrearPlantilla_loading .dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.CrearPlantilla_loading .dot {
+  height: 10px;
+  width: 10px;
+  margin: 0 5px;
+  background-color: white;
+  border-radius: 50%;
+  animation: dot-blink 1.4s infinite both;
+}
+
+.CrearPlantilla_loading .dot:nth-child(1) {
+  animation-delay: -0.32s;
+}
+
+.CrearPlantilla_loading .dot:nth-child(2) {
+  animation-delay: -0.16s;
+}
+
+@keyframes dot-blink {
+  0%,
+  80%,
+  100% {
+    opacity: 0;
   }
-  
-  .CrearPlantilla_box {
-    background-color: white;
-    padding: 20px;
-    border-radius: 10px;
+  40% {
+    opacity: 1;
   }
-  
-  .CrearPlantilla_box:first-child {
-    width: 70%;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
   }
-  
-  .CrearPlantilla_box:last-child {
-    width: 30%;
+  100% {
+    transform: rotate(360deg);
   }
-  
-  .CrearPlantilla_box label {
-    font-weight: 600;
-    color: #001E38;
-  }
-  
-  .CrearPlantilla_pdf_button {
-    background-color: #F65232;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin: 10px 0;
-    cursor: pointer;
-    width: 20%;
-  }
-  
-  .CrearPlantilla_box input {
-    font-size: 17px;
-    width: 100%;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 5px;
-    margin: 10px 0;
-  }
-  
-  .input-nombre-etapa {
-    margin: 15px 0;
-  }
-  
-  .CrearPlantilla_box h2 {
-    color: #B1B1B1;
-    font-weight: 300;
-    margin-bottom: 20px;
-  }
-  
-  .CrearPlantilla_box h3 {
-    color: #001E38;
-    font-weight: 600;
-    margin-top: 20px;
-  }
-  
-  .CrearPlantilla_box p {
-    color: #001E38;
-    font-weight: 300;
-    margin-top: 10px;
-  }
-  
-  .etapa-container {
-    margin-top: 20px;
-    border: 1px solid #E4E4E4;
-    border-radius: 5px;
-    overflow: hidden;
-  }
-  
-  .etapa-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #F7F7F7;
-    padding: 10px;
-    cursor: pointer;
-    font-weight: 600;
-    color: #00447E;
-    position: relative;
-  }
-  
-  .etapa-header:hover .dropdown-icon {
-    display: none;
-  }
-  
-  .etapa-header:hover .delete-icon {
-    display: block;
-  }
-  
-  .etapa-header .dropdown-icon {
-    margin-left: 10px;
-  }
-  
-  .etapa-header .delete-icon {
-    color: red;
-    cursor: pointer;
-    display: none;
-    margin-left: 10px;
-  }
-  
-  .CrearPlantilla_agregarEtapa {
-    background-color: #707070;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin: 10px 0;
-    cursor: pointer;
-    width: 20%;
-  }
-  
-  .CrearPlantilla_guardar {
-    background-color: #F65232;
-    color: white;
-    padding: 10px;
-    border: none;
-    border-radius: 5px;
-    margin: 20px 0;
-    cursor: pointer;
-    width: 20%;
-    text-align: center;
-  }
+}

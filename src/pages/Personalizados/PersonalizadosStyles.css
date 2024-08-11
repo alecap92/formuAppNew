@@ -1,0 +1,49 @@
+.subMenuContainer {
+  padding: 40px 30px;
+}
+
+.subMenuContainerButton {
+  background-color: #007bff;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.subMenuContainerButton:hover {
+  background-color: #0056b3;
+}
+
+.Plantillas_container {
+  margin: 20px;
+}
+
+.Plantillas_search {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.Plantillas_search input {
+  margin-left: 10px;
+  border: none;
+  outline: none;
+  flex: 1;
+}
+
+#Plantillas_grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 20px;
+}
+
+.noFilesMessage {
+  text-align: center;
+  color: #939393;
+  margin-top: 20px;
+}

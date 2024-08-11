@@ -3,7 +3,7 @@ import axios from "axios";
 
 // Crear una instancia de axios con configuración predeterminada
 const apiClient = axios.create({
-  baseURL: "http://localhost:3000/api/v1", // Reemplaza esto con la URL base de tu API
+  baseURL: "http://localhost:3002/api", // Reemplaza esto con la URL base de tu API
   headers: {
     "Content-Type": "application/json",
   },

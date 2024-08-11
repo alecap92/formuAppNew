@@ -2,40 +2,28 @@ import React, { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../contexts/store/Store";
 import "./PerfilComponentStyles.css";
+import { getUser, updateUser } from "../../../services/api";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../../contexts/features/loadingSlice";
 
 interface FormData {
   companyName?: string;
-  first_name?: string;
-  last_name?: string;
+  firstName?: string;
+  lastName?: string;
   email?: string;
-  document_type?: string;
-  document?: string;
-  celular?: string;
+  idType?: string;
+  idNumber?: string;
+  mobile?: string;
+  phone?: string;
   address?: string;
   city?: string;
   state?: string;
 }
 
 const PerfilComponent: React.FC = () => {
-  const user = useSelector((state: RootState) => state.auth.user);
+  const user = useSelector((state: RootState) => state.user);
   const [formData, setFormData] = useState<FormData>({});
-
-  useEffect(() => {
-    if (user) {
-      setFormData({
-        companyName: user.companyName,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        email: user.email,
-        document_type: user.document_type,
-        document: user.document,
-        celular: user.phone,
-        address: user.address,
-        city: user.city,
-        state: user.state,
-      });
-    }
-  }, [user]);
+  const dispatch = useDispatch();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({
@@ -44,131 +32,161 @@ const PerfilComponent: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const fetchUserData = async () => {
+    const user = await getUser();
+
+    setFormData({
+      companyName: user?.companyName,
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      email: user?.email,
+      idType: user?.idType,
+      idNumber: user?.idNumber,
+      mobile: user?.mobile,
+      phone: user?.phone,
+      address: user?.address,
+      city: user?.city,
+      state: user?.state,
+    });
+  };
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     // Aquí puedes hacer algo con los datos del formulario, como enviarlos a una API
-    console.log("Form data submitted:", formData);
+
+    dispatch(setLoading(true));
+    await updateUser(formData);
+    dispatch(setLoading(false));
   };
+
+  useEffect(() => {
+    if (user) {
+      setFormData({});
+    }
+    fetchUserData();
+  }, [user]);
 
   return (
     <div className="PerfilComponent_container">
       <div style={{ width: "60%" }}>
-        <form className="PerfilComponent_form" onSubmit={handleSubmit}>
-          <div className="form-group">
-            <label htmlFor="companyName">Nombre de la empresa</label>
-            <input
-              type="text"
-              id="companyName"
-              name="companyName"
-              value={formData.companyName || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="first-name">Nombre completo</label>
-            <input
-              type="text"
-              id="first_name"
-              name="first_name"
-              value={formData.first_name || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="last_name">Nombre completo</label>
-            <input
-              type="text"
-              id="last_name"
-              name="last_name"
-              value={formData.last_name || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="email">Correo</label>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              value={formData.email || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="document_type">Tipo de Identificación</label>
-            <select
-              id="document_type"
-              name="document_type"
-              value={formData.document_type || ""}
-              onChange={() => {
-                return handleChange;
-              }}
-            >
-              <option value="" disabled>
-                Seleccione un tipo de identificación
-              </option>
-              <option value="CC">Cédula de Ciudadanía</option>
-              <option value="CE">Cédula de Extranjería</option>
-              <option value="TI">Tarjeta de Identidad</option>
-              <option value="PA">Pasaporte</option>
-            </select>
-          </div>
-          <div className="form-group">
-            <label htmlFor="document">Número de Identificación</label>
-            <input
-              type="text"
-              id="document"
-              name="document"
-              value={formData.document || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="celular">Celular</label>
-            <input
-              type="text"
-              id="celular"
-              name="celular"
-              value={formData.celular || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div>
-            <h3 style={{ color: "#F65232" }}>Datos de Ubicación</h3>
-            <hr />
-          </div>
-          <div className="form-group">
-            <label htmlFor="address">Dirección</label>
-            <input
-              type="text"
-              id="address"
-              name="address"
-              value={formData.address || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="city">Ciudad</label>
-            <input
-              type="text"
-              id="city"
-              name="city"
-              value={formData.city || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <div className="form-group">
-            <label htmlFor="state">Departamento (Estado)</label>
-            <input
-              type="text"
-              id="state"
-              name="state"
-              value={formData.state || ""}
-              onChange={handleChange}
-            />
-          </div>
-          <button type="submit">Guardar</button>
-        </form>
+        <div className="PerfilComponent_wrapper">
+          <form className="PerfilComponent_form" onSubmit={handleSubmit}>
+            <div className="form-group">
+              <label htmlFor="companyName">Nombre de la empresa</label>
+              <input
+                type="text"
+                id="companyName"
+                name="companyName"
+                value={formData.companyName || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="first-name">Nombre completo</label>
+              <input
+                type="text"
+                id="firstName"
+                name="firstName"
+                value={formData.firstName || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="lastName">Nombre completo</label>
+              <input
+                type="text"
+                id="lastName"
+                name="lastName"
+                value={formData.lastName || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="email">Correo</label>
+              <input
+                type="email"
+                id="email"
+                name="email"
+                value={formData.email || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="idType">Tipo de Identificación</label>
+              <select
+                id="idType"
+                name="idType"
+                value={formData.idType || ""}
+                onChange={() => {
+                  return handleChange;
+                }}
+              >
+                <option value="" disabled>
+                  Seleccione un tipo de identificación
+                </option>
+                <option value="CC">Cédula de Ciudadanía</option>
+                <option value="CE">Cédula de Extranjería</option>
+                <option value="TI">Tarjeta de Identidad</option>
+                <option value="PA">Pasaporte</option>
+              </select>
+            </div>
+            <div className="form-group">
+              <label htmlFor="idNumber">Número de Identificación</label>
+              <input
+                type="text"
+                id="idNumber"
+                name="idNumber"
+                value={formData.idNumber || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="celular">Celular</label>
+              <input
+                type="text"
+                id="celular"
+                name="celular"
+                value={formData.mobile || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div>
+              <h3 style={{ color: "#F65232" }}>Datos de Ubicación</h3>
+              <hr />
+            </div>
+            <div className="form-group">
+              <label htmlFor="address">Dirección</label>
+              <input
+                type="text"
+                id="address"
+                name="address"
+                value={formData.address || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="city">Ciudad</label>
+              <input
+                type="text"
+                id="city"
+                name="city"
+                value={formData.city || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label htmlFor="state">Departamento (Estado)</label>
+              <input
+                type="text"
+                id="state"
+                name="state"
+                value={formData.state || ""}
+                onChange={handleChange}
+              />
+            </div>
+            <button type="submit">Guardar</button>
+          </form>
+        </div>
       </div>
       <div>
         <div style={{ marginBottom: "10px" }}>

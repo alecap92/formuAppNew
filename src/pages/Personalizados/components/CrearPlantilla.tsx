@@ -1,4 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import { useSelector } from "react-redux";
 import {
   FaInfoCircle,
   FaChevronDown,
@@ -8,24 +9,25 @@ import {
 } from "react-icons/fa";
 import EtapaComponent from "./EtapaComponent";
 import "./CrearPlantillaStyles.css";
+import fileService from "../../../services/api/fileService";
+import { RootState } from "../../../contexts/store/Store";
+import { Campo, Etapa } from "../../../types/types";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../../contexts/features/loadingSlice";
 
-interface Campo {
-  nombre: string;
-  baseDeDatos: string;
-  tipo: string;
-}
-
-interface Etapa {
-  nombre: string;
-  campos: Campo[];
-  isOpen: boolean;
-}
-
-const CrearPlantilla = () => {
+const CrearPlantilla = ({ fetchFiles, submit, setSubmit }: any) => {
+  const [nombreArchivo, setNombreArchivo] = useState<string>("");
+  const [archivo, setArchivo] = useState<File | null>(null);
+  const [category, setCategory] = useState<string>("Personalizados");
+  const [isPublic, setIsPublic] = useState<string>("false");
   const [etapas, setEtapas] = useState<Etapa[]>([]);
   const [nombreEtapa, setNombreEtapa] = useState("");
-  const [nombreArchivo, setNombreArchivo] = useState("");
-  const [archivo, setArchivo] = useState<File | null>(null);
+
+  const dispatch = useDispatch();
+
+  const contactProperties = useSelector(
+    (state: RootState) => state.user?.settings.contactProperties || []
+  );
 
   const handleAgregarEtapa = () => {
     if (!nombreEtapa) {
@@ -33,7 +35,7 @@ const CrearPlantilla = () => {
       return;
     }
 
-    setEtapas([...etapas, { nombre: nombreEtapa, campos: [], isOpen: false }]);
+    setEtapas([...etapas, { label: nombreEtapa, key: [], isOpen: false }]);
     setNombreEtapa("");
   };
 
@@ -49,103 +51,168 @@ const CrearPlantilla = () => {
     setEtapas(etapas.filter((_, i) => i !== index));
   };
 
-  const setCampos = (index: number, campos: Campo[]) => {
+  const setCampos = (index: number, key: Campo[]) => {
     const nuevasEtapas = [...etapas];
-    nuevasEtapas[index].campos = campos;
+    nuevasEtapas[index].key = key;
     setEtapas(nuevasEtapas);
   };
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
-    const formularioCompleto = {
-      nombreArchivo,
-      archivo,
-      etapas,
+  useEffect(() => {
+    const handleSubmit = async () => {
+      if (!nombreArchivo) {
+        alert("Por favor, ingrese un nombre para el archivo.");
+        return;
+      }
+      if (!category) {
+        alert("Por favor, seleccione una categoría para el archivo.");
+        return;
+      }
+      if (!archivo) {
+        alert("Por favor, seleccione un archivo.");
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append("name", nombreArchivo);
+      formData.append("category", "Personalizados");
+      formData.append("file", archivo);
+      formData.append("isPublic", isPublic.toString());
+      formData.append("etapas", JSON.stringify(etapas));
+
+      try {
+        dispatch(setLoading(true));
+
+        await fileService.createFile(formData);
+        fetchFiles();
+        dispatch(setLoading(false));
+        // Limpiar el formulario
+        setNombreArchivo("");
+        setArchivo(null);
+
+        setIsPublic("false");
+        setEtapas([]);
+      } catch (error) {
+        console.error("Error al subir el archivo:", error);
+      } finally {
+        setSubmit(false); // Resetear submit después de enviar el formulario
+      }
     };
-    console.log("Formulario completo:", formularioCompleto);
-    // Limpiar el formulario
-    setNombreArchivo("");
-    setArchivo(null);
-    setEtapas([]);
-  };
+
+    if (submit) {
+      handleSubmit();
+    }
+  }, [
+    submit,
+    nombreArchivo,
+    category,
+    archivo,
+    isPublic,
+    etapas,
+    fetchFiles,
+    dispatch,
+    setSubmit,
+  ]);
 
   return (
     <>
       <div className="CrearPlantilla_container">
         <div className="CrearPlantilla_box">
-          <form onSubmit={handleSubmit}>
-            <div style={{ display: "flex", flexDirection: "column" }}>
-              <label htmlFor="">Tipo de Archivo</label>
-              <button type="button" className="CrearPlantilla_pdf_button">
-                PDF
-              </button>
+          <form>
+            <div>
+              <label htmlFor="isPublic">
+                Es público o privado el documento?
+              </label>
+              <select
+                name="isPublic"
+                id="isPublic"
+                onChange={(e) => setIsPublic(e.target.value)}
+                required
+              >
+                <option value="false">Privado</option>
+                <option value="true">Público</option>
+              </select>
             </div>
             <div>
-              <label htmlFor="">Nombre del documento</label>
+              <label htmlFor="nombreArchivo">Nombre del documento</label>
               <input
                 type="text"
+                id="nombreArchivo"
                 value={nombreArchivo}
                 onChange={(e) => setNombreArchivo(e.target.value)}
+                required
               />
             </div>
             <div>
-              <label htmlFor="S">Selecciona el archivo</label>
+              <label htmlFor="category">Categoría del documento</label>
+
+              <select
+                name=""
+                id="category"
+                value={category}
+                onChange={(e) => setCategory(e.target.value)}
+                required
+                defaultValue={"Personalizados"}
+              >
+                <option value="Personalizados">Personalizados</option>
+              </select>
+            </div>
+            <div>
+              <label htmlFor="archivo">Selecciona el archivo</label>
               <input
                 type="file"
+                id="archivo"
                 onChange={(e) =>
                   setArchivo(e.target.files ? e.target.files[0] : null)
                 }
+                required
               />
             </div>
+
             <div>
-              <div>
-                <label htmlFor="">Nombre de la etapa</label>
-                <input
-                  type="text"
-                  value={nombreEtapa}
-                  onChange={(e) => setNombreEtapa(e.target.value)}
-                  className="input-nombre-etapa"
-                />
-                <button
-                  type="button"
-                  className="CrearPlantilla_agregarEtapa"
-                  onClick={handleAgregarEtapa}
-                >
-                  <FaPlus /> Agregar Etapa
-                </button>
-              </div>
-              {etapas.map((etapa, index) => (
-                <div key={index} className="etapa-container">
-                  <div
-                    className="etapa-header"
-                    onClick={() => handleToggleEtapa(index)}
-                  >
-                    {etapa.nombre}
-                    {etapa.isOpen ? (
-                      <FaChevronUp className="dropdown-icon" />
-                    ) : (
-                      <FaChevronDown className="dropdown-icon" />
-                    )}
-                    <FaTrash
-                      className="delete-icon"
-                      onClick={(e) => {
-                        e.stopPropagation(); // Prevenir el toggle del dropdown
-                        handleEliminarEtapa(index);
-                      }}
-                    />
-                  </div>
-                  {etapa.isOpen && (
-                    <EtapaComponent
-                      campos={etapa.campos}
-                      setCampos={(campos) => setCampos(index, campos)}
-                    />
-                  )}
-                </div>
-              ))}
+              <label htmlFor="">Nombre de la etapa</label>
+              <input
+                type="text"
+                value={nombreEtapa}
+                onChange={(e) => setNombreEtapa(e.target.value)}
+                className="input-nombre-etapa"
+              />
+              <button
+                type="button"
+                className="CrearPlantilla_agregarEtapa"
+                onClick={handleAgregarEtapa}
+              >
+                <FaPlus /> Agregar Etapa
+              </button>
             </div>
-            <button type="submit" className="CrearPlantilla_guardar">
-              Guardar
-            </button>
+            {etapas.map((etapa, index) => (
+              <div key={index} className="etapa-container">
+                <div
+                  className="etapa-header"
+                  onClick={() => handleToggleEtapa(index)}
+                >
+                  {etapa.label}
+                  {etapa.isOpen ? (
+                    <FaChevronUp className="dropdown-icon" />
+                  ) : (
+                    <FaChevronDown className="dropdown-icon" />
+                  )}
+                  <FaTrash
+                    className="delete-icon"
+                    onClick={(e) => {
+                      e.stopPropagation(); // Prevenir el toggle del dropdown
+                      handleEliminarEtapa(index);
+                    }}
+                  />
+                </div>
+                {etapa.isOpen && (
+                  <EtapaComponent
+                    campos={etapa.key}
+                    setCampos={(key) => setCampos(index, key)}
+                    contactProperties={contactProperties}
+                  />
+                )}
+              </div>
+            ))}
           </form>
         </div>
         <div className="CrearPlantilla_box">

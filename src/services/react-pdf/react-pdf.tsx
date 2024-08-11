@@ -1,27 +1,38 @@
-import React from "react";
-import { Worker, Viewer } from "@react-pdf-viewer/core";
-import "@react-pdf-viewer/core/lib/styles/index.css";
-import { defaultLayoutPlugin } from "@react-pdf-viewer/default-layout";
-import "@react-pdf-viewer/default-layout/lib/styles/index.css";
+import React, { useEffect, useState } from "react";
 
-const PdfViewer: React.FC<{ fileUrl: string | null }> = ({ fileUrl }) => {
-  const defaultLayoutPluginInstance = defaultLayoutPlugin();
+type PdfViewerProps = {
+  pdfData: Blob | null;
+};
+
+const PdfViewer: React.FC<PdfViewerProps> = ({ pdfData }) => {
+  const [pdfUrl, setPdfUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (pdfData) {
+      // Crear una URL para el Blob y almacenarla en el estado
+      const url = URL.createObjectURL(pdfData);
+      setPdfUrl(url);
+
+      // Limpiar la URL del Blob cuando el componente se desmonte o pdfData cambie
+      return () => {
+        URL.revokeObjectURL(url);
+        setPdfUrl(null);
+      };
+    }
+  }, [pdfData]);
+
+  if (!pdfData) {
+    return <div>No PDF data available</div>;
+  }
 
   return (
-    <div style={{ height: "750px" }}>
-      <Worker
-        workerUrl={`https://unpkg.com/pdfjs-dist@3.4.120/build/pdf.worker.min.js`}
-      >
-        {fileUrl ? (
-          <Viewer
-            fileUrl={"/samples/pdf/pdf.pdf"}
-            plugins={[defaultLayoutPluginInstance]}
-          />
-        ) : (
-          "Loading PDF..."
-        )}
-      </Worker>
-    </div>
+    <iframe
+      src={pdfUrl as any}
+      width="100%"
+      height="750px"
+      style={{ border: "none" }}
+      title="PDF Viewer"
+    />
   );
 };
 

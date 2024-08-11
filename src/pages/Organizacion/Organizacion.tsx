@@ -1,11 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import MainLayout from "../../components/Layout/MainLayout";
-import SubMenuOrganizacion from "../../components/SubMenus/Organizacion/SubMenuOrganizacion";
 import InicioComponent from "./components/InicioComponent";
-import UsuariosComponent from "./components/UsuariosComponent";
-import PagosComponent from "./components/PagosComponent";
-import PerfilComponent from "./components/PerfilComponent";
-import SeguridadComponent from "./components/SeguridadComponent";
+import { FaPlus } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 export type SubmenuType =
   | "inicio"
@@ -16,17 +13,21 @@ export type SubmenuType =
   | "seguridad";
 
 const Organizacion: React.FC = () => {
-  const [submenu, setSubmenu] = useState<SubmenuType>("inicio");
-
   return (
     <MainLayout>
-      <SubMenuOrganizacion setSubmenu={setSubmenu} submenu={submenu} />
-      {submenu === "inicio" && <InicioComponent />}
-      {submenu === "usuarios" && <UsuariosComponent />}
-      {submenu === "suscripcion" && <h1>En construccion...</h1>}
-      {submenu === "pagos" && <PagosComponent />}
-      {submenu === "perfil" && <PerfilComponent />}
-      {submenu === "seguridad" && <SeguridadComponent />}
+      <div className="subMenuContainer">
+        <div style={{ display: "flex", justifyContent: "space-between" }}>
+          <h1>Dashboard</h1>
+          <Link
+            to={"/formatos"}
+            type="button"
+            className="subMenuContainerButton"
+          >
+            <FaPlus /> Crear Documento
+          </Link>
+        </div>
+      </div>
+      <InicioComponent />
     </MainLayout>
   );
 };

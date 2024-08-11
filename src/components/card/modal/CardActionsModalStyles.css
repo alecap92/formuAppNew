@@ -1,44 +1,44 @@
 .CardActionsModal_container {
-    position: absolute;
-    left: 270px; /* Ajusta este valor según sea necesario */
-    top: 70px; /* Ajusta este valor según sea necesario */
-    display: flex;
-    flex-direction: column;
-    width: 250px;
-    border: 1px solid #D9D9D9;
-    border-radius: 10px;
-    background-color: #F8F8F8;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    z-index: 1000;
-  }
-  
-  .CardActionsModal_list {
-    padding: 7px 0;
-  }
-  
-  .CardActionsModal_action {
-    display: flex;
-    align-items: center;
-    padding: 6px 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-bottom: 1px solid #D8D8D8;
-  }
+  position: absolute;
+  left: 270px; /* Ajusta este valor según sea necesario */
+  top: 50px; /* Ajusta este valor según sea necesario */
+  display: flex;
+  flex-direction: column;
+  width: 250px;
+  border: 1px solid #d9d9d9;
+  border-radius: 10px;
+  background-color: #f8f8f8;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  z-index: 1000;
+}
 
-  .CardActionsModal_action:last-child {
-    border-bottom: none;
-  }
+.CardActionsModal_list {
+  padding: 7px 0;
+}
 
-  .CardActionsModal_action p{
-font-weight: 300;
-  }
-  
-  .CardActionsModal_action:hover {
-    background-color: red;
-  }
-  
-  .CardActionsModal_action p {
-    margin-left: 10px;
-    font-size: 14px;
-    color: #333;
-  }
+.CardActionsModal_action {
+  display: flex;
+  align-items: center;
+  padding: 6px 15px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+  border-bottom: 1px solid #d8d8d8;
+}
+
+.CardActionsModal_action:last-child {
+  border-bottom: none;
+}
+
+.CardActionsModal_action p {
+  font-weight: 300;
+}
+
+.CardActionsModal_action:hover {
+  background-color: red;
+}
+
+.CardActionsModal_action p {
+  margin-left: 10px;
+  font-size: 14px;
+  color: #333;
+}

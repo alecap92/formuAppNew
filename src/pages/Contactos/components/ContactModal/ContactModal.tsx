@@ -1,26 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { FaTimes } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { addAlert } from "../../../../contexts/features/alertSlice";
 import "./ContactModalStyles.css";
+import { useSelector } from "react-redux";
+import { contactService } from "../../../../services/api/contactService";
 
 interface ContactModalProps {
   setIsOpenModal: (value: boolean) => void;
+  fetchContacts: () => void;
 }
-
-const inputFields = [
-  { label: "Nombre", type: "text", name: "name" },
-  { label: "Apellidos", type: "text", name: "surname" },
-  { label: "Celular", type: "text", name: "phone" },
-];
 
 const ContactModal: React.FC<ContactModalProps> = ({
   setIsOpenModal,
+  fetchContacts,
 }: ContactModalProps) => {
+  const [form, setForm] = useState<any>([]);
   const dispatch = useDispatch();
+  const inputFields = useSelector(
+    (state: any) => state.user.settings.contactProperties
+  );
 
-  const handleSave = () => {
+  const handleSave = async () => {
     // Aquí puedes añadir la lógica para guardar el contacto
+    await contactService.createContact({ properties: form });
 
     // Despacha la alerta de "Guardado exitosamente"
     dispatch(
@@ -30,9 +33,10 @@ const ContactModal: React.FC<ContactModalProps> = ({
         type: "success",
       })
     );
-
+    setForm([]);
     // Cierra el modal
     setIsOpenModal(false);
+    fetchContacts();
   };
 
   const handleDelete = () => {
@@ -62,16 +66,37 @@ const ContactModal: React.FC<ContactModalProps> = ({
           />
         </div>
         <div className="global-modal-body">
-          {inputFields.map((field, index) => (
+          {inputFields.map((field: any, index: any) => (
             <div className="input-group" key={index}>
-              <label htmlFor={field.name} className="label">
+              <label htmlFor={field.key} className="label">
                 {field.label}
               </label>
               <input
                 type={field.type}
-                name={field.name}
-                id={field.name}
+                name={field.key}
+                id={field.key}
                 className="input"
+                onChange={(e) =>
+                  setForm((prevForm: any) => {
+                    const updatedForm = prevForm.map((item: any) =>
+                      item.key === field.key
+                        ? { ...item, value: e.target.value }
+                        : item
+                    );
+
+                    // Si la clave no existe en el array, añade un nuevo objeto
+                    if (
+                      !updatedForm.some((item: any) => item.key === field.key)
+                    ) {
+                      updatedForm.push({
+                        key: field.key,
+                        value: e.target.value,
+                      });
+                    }
+
+                    return updatedForm;
+                  })
+                }
               />
             </div>
           ))}

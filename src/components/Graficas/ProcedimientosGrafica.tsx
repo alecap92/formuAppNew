@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   LineChart,
   Line,
@@ -9,27 +9,24 @@ import {
   Legend,
   ResponsiveContainer,
 } from "recharts";
-
-const data = [
-  { mes: "Enero", procedimientos: 30 },
-  { mes: "Febrero", procedimientos: 20 },
-  { mes: "Marzo", procedimientos: 27 },
-  { mes: "Abril", procedimientos: 18 },
-  { mes: "Mayo", procedimientos: 23 },
-  { mes: "Junio", procedimientos: 34 },
-  { mes: "Julio", procedimientos: 45 },
-  { mes: "Agosto", procedimientos: 30 },
-  { mes: "Septiembre", procedimientos: 40 },
-  { mes: "Octubre", procedimientos: 25 },
-  { mes: "Noviembre", procedimientos: 29 },
-  { mes: "Diciembre", procedimientos: 32 },
-];
+import { getDocumentsUsage } from "../../services/api";
 
 const ProcedimientosGrafica: React.FC = () => {
+  const [usage, setUsage] = useState([]);
+
+  const getUsage = async () => {
+    const usage = await getDocumentsUsage();
+    setUsage(usage);
+  };
+
+  useEffect(() => {
+    getUsage();
+  }, []);
+
   return (
     <ResponsiveContainer width="100%" height={150}>
       <LineChart
-        data={data}
+        data={usage}
         margin={{
           top: 5,
           right: 30,

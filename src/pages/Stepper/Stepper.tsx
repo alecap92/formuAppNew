@@ -1,31 +1,27 @@
 import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import MainLayout from "../../components/Layout/MainLayout";
 import "./StepperStyles.css";
-import { FaRocket } from "react-icons/fa";
+import fileService from "../../services/api/fileService";
+import PDFViewer from "./PDFViewer";
+import StepperForm from "./StepperForm";
+import StepperButtons from "./StepperButtons";
+import DocumentNameInput from "./DocumentNameInput";
 import AutocompletarModal from "../../components/AutocompletarModal/AutocompletarModal";
+import * as pdfjsLib from "pdfjs-dist";
+import pdfWorker from "pdfjs-dist/build/pdf.worker.entry";
+import procedureService from "../../services/api/procedureService";
+import { useDispatch, useSelector } from "react-redux";
+import { setLoading } from "../../contexts/features/loadingSlice";
+import { handleAutoComplete } from "../../utils/AutoComplete/AutoComplete";
+import { addAlert } from "../../contexts/features/alertSlice";
 
-type Campo = {
-  nombre: string;
-  baseDeDatos: string;
-  tipo: "Text" | "Select";
-};
+pdfjsLib.GlobalWorkerOptions.workerSrc = pdfWorker;
 
-type Etapa = {
-  nombre: string;
-  campos: Campo[];
-  isOpen: boolean;
-};
-
-type DatosFormulario = {
-  nombreArchivo: string;
-  archivo: any;
-  etapas: Etapa[];
-};
-
-const Stepper = () => {
-  const { procedureId } = useParams<{ procedureId: string }>();
-  const [datos, setDatos] = useState<DatosFormulario | null>(null);
+const Stepper: React.FC = () => {
+  const { id } = useParams<{ id: string }>();
+  const [datos, setDatos] = useState<any | null>(null);
+  const [pdf, setPdf] = useState<any>(null);
   const [currentStep, setCurrentStep] = useState(0);
   const [formValues, setFormValues] = useState<
     Record<string, Record<string, string>>
@@ -33,90 +29,116 @@ const Stepper = () => {
   const [documentName, setDocumentName] = useState("");
   const [isVisibleAutocompletar, setIsVisibleAutocompletar] =
     useState<boolean>(false);
+  const [loadingPdf, setLoadingPdf] = useState<boolean>(true);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const user = useSelector((state: any) => state.user);
 
   useEffect(() => {
-    // Simulación de la petición HTTP
     const fetchData = async () => {
-      // Simula un retraso para la petición
-      await new Promise((resolve) => setTimeout(resolve, 1000));
+      try {
+        const fields = await fileService.getFile(id as any);
+        if (!fields) {
+          console.error("No file data found.");
+          return;
+        }
+        setDatos(fields);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
 
-      // JSON de ejemplo
-      const datosFormulario: DatosFormulario = {
-        nombreArchivo: "Rotulo PDF",
-        archivo: {},
-        etapas: [
-          {
-            nombre: "Remitente",
-            campos: [
-              {
-                nombre: "Nombre",
-                baseDeDatos: "name",
-                tipo: "Text",
-              },
-              {
-                nombre: "Direccion",
-                baseDeDatos: "address",
-                tipo: "Text",
-              },
-            ],
-            isOpen: true,
-          },
-          {
-            nombre: "Destinatario",
-            campos: [
-              {
-                nombre: "Nombre",
-                baseDeDatos: "name",
-                tipo: "Text",
-              },
-              {
-                nombre: "Direccion",
-                baseDeDatos: "address",
-                tipo: "Select",
-              },
-            ],
-            isOpen: true,
-          },
-        ],
-      };
-
-      // Aquí agregarías la llamada HTTP real, por ejemplo:
-      // const response = await fetch(`https://api.example.com/procedures/${procedureId}`);
-      // const datosFormulario = await response.json();
-
-      setDatos(datosFormulario);
+    const fetchPdf = async () => {
+      try {
+        const pdfBlob = await fileService.getTemplatePdf(id as any);
+        const loadingTask = pdfjsLib.getDocument({ data: pdfBlob });
+        const pdf = await loadingTask.promise;
+        setPdf(pdf);
+        setLoadingPdf(false);
+      } catch (error) {
+        console.error("Error fetching PDF:", error);
+      }
     };
 
     fetchData();
-  }, [procedureId]);
+    fetchPdf();
+  }, [id]);
 
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>,
     etapa: string,
     baseDeDatos: string
   ) => {
-    setFormValues({
-      ...formValues,
+    setFormValues((prevValues) => ({
+      ...prevValues,
       [etapa]: {
-        ...formValues[etapa],
+        ...prevValues[etapa],
         [baseDeDatos]: e.target.value,
       },
-    });
+    }));
   };
 
   const handleDocumentNameChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setDocumentName(e.target.value);
   };
 
-  const nextStep = () => {
-    if (currentStep < datos!.etapas.length - 1) {
+  const nextStep = async () => {
+    const etapaActual = datos?.etapas[currentStep];
+    let isValid = true;
+
+    if (etapaActual) {
+      etapaActual.key.forEach((campo: any) => {
+        const valorCampo = formValues[etapaActual.label]?.[campo.key] || "";
+        if (campo.required && !valorCampo) {
+          const inputElement = document.getElementById(campo.key);
+          if (inputElement) {
+            inputElement.classList.add("stepper_input_error");
+          }
+          isValid = false;
+        } else {
+          const inputElement = document.getElementById(campo.key);
+          if (inputElement) {
+            inputElement.classList.remove("stepper_input_error");
+          }
+        }
+      });
+    }
+
+    if (!isValid) return;
+
+    if (currentStep < (datos?.etapas?.length ?? 0) - 1) {
       setCurrentStep(currentStep + 1);
     } else {
-      // Mostrar todos los datos en la consola
-      console.log({
-        nombreDocumento: documentName,
-        valoresFormulario: formValues,
-      });
+      if (!documentName) {
+        dispatch(
+          addAlert({
+            message: "Por favor, ingresa un nombre para el documento.",
+            type: "error",
+            id: Math.random().toLocaleString(),
+          })
+        );
+        return;
+      }
+      dispatch(setLoading(true));
+
+      const submissionData = {
+        fileId: id,
+        content: Object.keys(formValues).reduce((acc, etapa) => {
+          const etapaValues = formValues[etapa];
+          Object.keys(etapaValues).forEach((campo) => {
+            acc[`${etapa}.${campo}`] = etapaValues[campo];
+          });
+          return acc;
+        }, {} as Record<string, string>),
+        name: documentName,
+        comments: "",
+      };
+
+      const response = await procedureService.createProcedure(submissionData);
+      localStorage.setItem("recentProcedureId", response._id);
+
+      dispatch(setLoading(false));
+      navigate("/historial");
     }
   };
 
@@ -127,7 +149,7 @@ const Stepper = () => {
   };
 
   if (!datos) {
-    return <div>Loading...</div>;
+    return <div>Loading data...</div>;
   }
 
   return (
@@ -135,105 +157,50 @@ const Stepper = () => {
       <div className="subMenuContainer" style={{ padding: "40px 30px" }}>
         <div style={{ display: "flex", justifyContent: "space-between" }}>
           <div>
-            <h1>{datos.nombreArchivo}</h1>
-            <h3>Categoria: empresas</h3>
-            <h3>Numero de veces utilizado</h3>
+            <h1>{datos.name}</h1>
+            <h3>Categoria: {datos.category}</h3>
           </div>
           <button type="button" className="subMenuContainerButton">
-            Mas Informacion
+            Más Información
           </button>
         </div>
       </div>
       <div className="stepper_container">
-        <div className="stepper_box">
-          <iframe
-            src="https://www.clickdimensions.com/links/TestPDFfile.pdf"
-            title="PDF Viewer"
-            width="100%"
-            height="500px"
-          />
-        </div>
+        <PDFViewer pdf={pdf} loading={loadingPdf} />
         <div className="stepper_box stepper_stepper">
-          <div className="document_name">
-            <input
-              type="text"
-              name="documentName"
-              id="documentName"
-              placeholder="Nombre del documento*"
-              value={documentName}
-              onChange={handleDocumentNameChange}
-            />
-            <button
-              className="autocompletar_button"
-              onClick={() => setIsVisibleAutocompletar(true)}
-            >
-              <FaRocket /> Autocompletar
-            </button>
-          </div>
-          <h2>{datos.etapas[currentStep].nombre}</h2>
-          <div className="stepper_formContainer">
-            {datos.etapas[currentStep].campos.map((campo) => (
-              <div className="stepper_formGroup" key={campo.baseDeDatos}>
-                <label htmlFor={campo.baseDeDatos}>{campo.nombre}*</label>
-                {campo.tipo === "Text" ? (
-                  <input
-                    type="text"
-                    name={campo.baseDeDatos}
-                    id={campo.baseDeDatos}
-                    value={
-                      formValues[datos.etapas[currentStep].nombre]?.[
-                        campo.baseDeDatos
-                      ] || ""
-                    }
-                    onChange={(e) =>
-                      handleInputChange(
-                        e,
-                        datos.etapas[currentStep].nombre,
-                        campo.baseDeDatos
-                      )
-                    }
-                  />
-                ) : (
-                  <select
-                    name={campo.baseDeDatos}
-                    id={campo.baseDeDatos}
-                    value={
-                      formValues[datos.etapas[currentStep].nombre]?.[
-                        campo.baseDeDatos
-                      ] || ""
-                    }
-                    onChange={(e) =>
-                      handleInputChange(
-                        e,
-                        datos.etapas[currentStep].nombre,
-                        campo.baseDeDatos
-                      )
-                    }
-                  >
-                    <option value="">-- Elija una opción --</option>
-                    {/* Aquí puedes agregar las opciones según sea necesario */}
-                  </select>
-                )}
-              </div>
-            ))}
-          </div>
-          <div className="stepper_buttons">
-            {currentStep > 0 && (
-              <button className="salir_button" onClick={prevStep}>
-                Anterior
-              </button>
-            )}
-            <button className="siguiente_button" onClick={nextStep}>
-              {currentStep === datos.etapas.length - 1
-                ? "Guardar"
-                : "Siguiente"}
-            </button>
-          </div>
+          <DocumentNameInput
+            documentName={documentName}
+            handleDocumentNameChange={handleDocumentNameChange}
+            setIsVisibleAutocompletar={setIsVisibleAutocompletar}
+          />
+          <StepperForm
+            datos={datos}
+            currentStep={currentStep}
+            formValues={formValues}
+            handleInputChange={handleInputChange}
+          />
+          <StepperButtons
+            currentStep={currentStep}
+            totalSteps={datos?.etapas?.length}
+            nextStep={nextStep}
+            prevStep={prevStep}
+          />
         </div>
       </div>
       {isVisibleAutocompletar && (
         <AutocompletarModal
           setIsVisibleAutocompletar={setIsVisibleAutocompletar}
+          onSelectSource={(source: "myInfo" | "contacts", contact?: any) =>
+            handleAutoComplete(
+              source,
+              contact,
+              user,
+              datos!,
+              currentStep,
+              formValues,
+              setFormValues
+            )
+          }
         />
       )}
     </MainLayout>

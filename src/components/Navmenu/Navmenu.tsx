@@ -1,59 +1,64 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import {
   FaHome,
-  FaLink,
   FaHistory,
   FaPuzzlePiece,
   FaFileAlt,
-  FaUser,
   FaBook,
   FaQuestionCircle,
   FaSignOutAlt,
   FaRocket,
-  FaList,
+  FaCogs,
+  FaUsers,
 } from "react-icons/fa";
 import "./NavMenuStyles.css";
 import { useDispatch } from "react-redux";
 import { logout } from "../../contexts/features/authSlice";
 import { addAlert } from "../../contexts/features/alertSlice";
+import { logoutHandler } from "../../services/auth/authService";
+import { setUser } from "../../contexts/features/userSlice";
 
 const NavMenu: React.FC = () => {
   const location = useLocation();
   const dispatch = useDispatch();
   const [activeItem, setActiveItem] = useState(location.pathname);
 
+  useEffect(() => {
+    setActiveItem(location.pathname);
+  }, [location.pathname]);
+
   const menuItems = [
     {
-      section: "Mi Organización",
+      section: "Inicio",
+      items: [{ name: "Dashboard", icon: <FaHome />, link: "/" }],
+    },
+    {
+      section: "Documentos realizados",
+      items: [{ name: "Historial", icon: <FaHistory />, link: "/historial" }],
+    },
+    {
+      section: "Creacion",
       items: [
-        { name: "Organización", icon: <FaHome />, link: "/organizacion" },
-        { name: "Conexiones API", icon: <FaLink />, link: "/conexion-api" },
+        { name: "Crear Documento", icon: <FaFileAlt />, link: "/formatos" },
       ],
     },
     {
-      section: "Documentos y plantillas",
+      section: "Base de Datos ",
+      items: [{ name: "Contactos", icon: <FaUsers />, link: "/contactos" }],
+    },
+
+    {
+      section: "Configuración",
       items: [
-        { name: "Historial", icon: <FaHistory />, link: "/historial" },
+        { name: "Mi Cuenta", icon: <FaCogs />, link: "/perfil" },
         {
-          name: "Personalizados",
+          name: "Crear Plantillas",
           icon: <FaPuzzlePiece />,
           link: "/personalizados",
         },
-        { name: "Plantillas", icon: <FaFileAlt />, link: "/formatos" },
-      ],
-    },
-    {
-      section: "Datos y Autocompletado",
-      items: [
-        { name: "Ver Contactos", icon: <FaUser />, link: "/contactos" },
         {
-          name: "Listas de Contactos",
-          icon: <FaList />,
-          link: "/contactos/listas",
-        },
-        {
-          name: "Campos de formularios",
+          name: "Campos personalizados",
           icon: <FaBook />,
           link: "/campos-de-formularios",
         },
@@ -61,8 +66,38 @@ const NavMenu: React.FC = () => {
     },
   ];
 
-  const handleLogout = () => {
+  const handleLogout = async () => {
+    await logoutHandler();
+
     dispatch(logout());
+
+    dispatch(
+      setUser({
+        _id: "",
+        firstName: "",
+        lastName: "",
+        mobile: "",
+        idType: "",
+        idNumber: "",
+        email: "",
+        city: "",
+        state: "",
+        address: "",
+        settings: {},
+        phone: "",
+        companyName: "",
+        plan: {
+          _id: "",
+          name: "",
+          monthlyDocuments: 0,
+          templates: 0,
+          price: 0,
+        },
+        documentsUsedThisMonth: 0,
+        templatesUsed: 0,
+      })
+    );
+
     dispatch(
       addAlert({
         id: new Date().toISOString(),
@@ -74,7 +109,7 @@ const NavMenu: React.FC = () => {
 
   return (
     <div className="side-menu">
-      <div className="side-menu">
+      <div className="menu-content">
         <div className="logo">
           <img src="/img/Logo-Horizontal-Blanco.png" alt="FormuApp Logo" />
         </div>
@@ -89,9 +124,11 @@ const NavMenu: React.FC = () => {
                     className={`menu-item ${
                       activeItem === item.link ? "active" : ""
                     }`}
-                    onClick={() => setActiveItem(item.link)}
                   >
-                    <Link to={item.link}>
+                    <Link
+                      to={item.link}
+                      onClick={() => setActiveItem(item.link)}
+                    >
                       {item.icon} <span>{item.name}</span>
                     </Link>
                   </li>
@@ -101,20 +138,22 @@ const NavMenu: React.FC = () => {
           </ul>
         </nav>
       </div>
-      <div style={{ display: "flex", justifyContent: "center" }}>
-        <hr style={{ width: "80%" }} />
+      <div className="menu-footer">
+        <div className="footer-hr">
+          <hr />
+        </div>
+        <ul className="footer-section">
+          <li>
+            <FaRocket /> Lo Nuevo
+          </li>
+          <li>
+            <FaQuestionCircle /> Ayuda y tutoriales
+          </li>
+          <li onClick={handleLogout}>
+            <FaSignOutAlt /> Cerrar Sesión
+          </li>
+        </ul>
       </div>
-      <ul className="footer-section">
-        <li>
-          <FaRocket /> Lo Nuevo
-        </li>
-        <li>
-          <FaQuestionCircle /> Ayuda y tutoriales
-        </li>
-        <li onClick={handleLogout}>
-          <FaSignOutAlt /> Cerrar Sesión
-        </li>
-      </ul>
     </div>
   );
 };

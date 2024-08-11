@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import {
   loginWithEmail,
   registerOrLoginWithGoogle,
-} from "../../contexts/features/authSlice";
+} from "../../services/auth/authService";
 import { addAlert } from "../../contexts/features/alertSlice";
 import "./LoginStyles.css";
 
@@ -27,7 +27,7 @@ const LoginPage: React.FC = () => {
           type: "success",
         })
       );
-      navigate("/organizacion");
+      navigate("/");
     } catch (error) {
       console.error("Error durante el inicio de sesión:", error);
       dispatch(

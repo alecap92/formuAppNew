@@ -1,52 +1,58 @@
 import React from "react";
-import {
-  FaEnvelope,
-  FaPen,
-  FaPrint,
-  FaTrash,
-  FaWhatsapp,
-  FaStar,
-} from "react-icons/fa";
+import { useNavigate } from "react-router-dom";
+import { FaPen, FaTrash } from "react-icons/fa";
 import "./CardActionsModalStyles.css";
 
-const CardActionsModal = ({ setActionsIsVisible }: any) => {
+interface CardActionsModalProps {
+  setActionsIsVisible: (visible: boolean) => void;
+  id: string;
+  fetchFiles: () => void;
+  handleDelete: () => void;
+}
+
+const CardActionsModal: React.FC<CardActionsModalProps> = ({
+  setActionsIsVisible,
+  id,
+  fetchFiles,
+  handleDelete,
+}) => {
+  const navigate = useNavigate();
+
+  const handleCreateDocument = () => {
+    setActionsIsVisible(false);
+    navigate(`/formatos/${id}`);
+  };
+
   const actions = [
     {
-      icon: <FaPrint />,
-      name: "Imprimir",
-    },
-    {
-      icon: <FaEnvelope />,
-      name: "Enviar por correo",
-    },
-    {
-      icon: <FaWhatsapp />,
-      name: "Enviar por WhatsApp",
-    },
-    {
       icon: <FaPen />,
-      name: "Editar",
+      name: "Crear Documento",
+      handler: handleCreateDocument,
     },
     {
       icon: <FaTrash />,
       name: "Eliminar",
-    },
-    {
-      icon: <FaStar />,
-      name: "Agregar a favoritos",
+      handler: () => {
+        handleDelete();
+        setActionsIsVisible(false);
+      },
     },
   ];
+
   return (
-    <div>
-      <div className="CardActionsModal_container">
-        <div className="CardActionsModal_list">
-          {actions.map((action, index) => (
-            <div key={index} className="CardActionsModal_action">
-              {action.icon}
-              <p>{action.name}</p>
-            </div>
-          ))}
-        </div>
+    <div className="CardActionsModal_container">
+      <div className="CardActionsModal_list">
+        {actions.map((action, index) => (
+          <div
+            key={index}
+            className="CardActionsModal_action"
+            onClick={action.handler}
+            style={{ color: "black" }}
+          >
+            {action.icon}
+            <p>{action.name}</p>
+          </div>
+        ))}
       </div>
     </div>
   );

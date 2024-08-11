@@ -1,72 +1,78 @@
-.PerfilComponent_container{
-    background-color: white;
-    padding: 20px;
-    margin:20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    border-radius: 10px;
+.PerfilComponent_container {
+  background-color: white;
+  padding: 20px;
+  margin: 20px;
+  display: flex;
+  justify-content: space-between;
+  /* align-items: center; */
+  border-radius: 10px;
 }
 
-.PerfilComponent_form .form-group{
-    margin-bottom: 20px;
+.PerfilComponent_wrapper {
+  max-height: calc(100vh - 200px);
+  overflow: auto;
 }
 
-.PerfilComponent_form .form-group label{
-    font-weight: bold;
+.PerfilComponent_form .form-group {
+  margin-bottom: 20px;
 }
 
-.PerfilComponent_form .form-group input, .PerfilComponent_form .form-group select{
-    width: 100%;
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
+.PerfilComponent_form .form-group label {
+  font-weight: bold;
 }
 
-.PerfilComponent_form button{
-    min-width: 150px;
-    padding: 10px 20px;
-    background-color: #F65232;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.PerfilComponent_form .form-group input,
+.PerfilComponent_form .form-group select {
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
 }
 
-.PerfilComponent_ImageContainer{
-    width: 100%;
-    margin-bottom:20px;
-    text-align: center;
+.PerfilComponent_form button {
+  min-width: 150px;
+  padding: 10px 20px;
+  background-color: #f65232;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.PerfilComponent_ImageContainer img{
-    width: 100%;
-    max-width: 250px;
-    height: 100%;
-    object-fit: cover;
-    border-radius: 10px;
+.PerfilComponent_ImageContainer {
+  width: 100%;
+  margin-bottom: 20px;
+  text-align: center;
 }
 
-.PerfilComponent_ImageContainer p{
-    font-size: 12px;
-    font-weight: 300;
-    text-align: center;
-    margin: 4px 0px;
+.PerfilComponent_ImageContainer img {
+  width: 100%;
+  max-width: 250px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 10px;
 }
 
-.PerfilComponent_ImageContainer button{
-    padding: 5px 15px;
-    background-color: #001E38;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
+.PerfilComponent_ImageContainer p {
+  font-size: 12px;
+  font-weight: 300;
+  text-align: center;
+  margin: 4px 0px;
 }
 
-.PerfilComponent_ImageContainer button:hover{
-    background-color: #0056b3;
+.PerfilComponent_ImageContainer button {
+  padding: 5px 15px;
+  background-color: #001e38;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
-.PerfilComponent_ImageContainer input{
-   margin-bottom: 10px;
+.PerfilComponent_ImageContainer button:hover {
+  background-color: #0056b3;
+}
+
+.PerfilComponent_ImageContainer input {
+  margin-bottom: 10px;
 }

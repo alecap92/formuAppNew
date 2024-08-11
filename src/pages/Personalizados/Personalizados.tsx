@@ -1,28 +1,42 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import MainLayout from "../../components/Layout/MainLayout";
-import { FaPlus } from "react-icons/fa";
-import Inicio from "./components/Inicio";
 import CrearPlantilla from "./components/CrearPlantilla";
+import "./PersonalizadosStyles.css";
 
-const Personalizados = () => {
-  const [isVisible, setIsVisible] = useState("inicio");
+const Personalizados: React.FC = () => {
+  const [submit, setSubmit] = useState(false);
+
+  const fetchFiles = async () => {
+    // const files = await fileService.getPrivateFiles();
+  };
+
+  useEffect(() => {
+    fetchFiles();
+  }, []);
 
   return (
     <MainLayout>
-      <div className="subMenuContainer" style={{ padding: "40px 30px" }}>
+      <div className="subMenuContainer">
         <div style={{ display: "flex", justifyContent: "space-between" }}>
-          <h1>Documentos Personalizados</h1>
+          <div>
+            <h1>Crear plantillas</h1>
+            <p>Crea tus propias plantillas y comienza a crear documentos</p>
+          </div>
           <button
-            type="button"
-            className="subMenuContainerButton"
-            onClick={() => setIsVisible("plantilla")}
+            className="CrearPlantilla_guardar"
+            onClick={() => {
+              setSubmit(true); // Marcar el submit como true al hacer clic
+            }}
           >
-            <FaPlus /> Crear Plantilla
+            Guardar
           </button>
         </div>
       </div>
-
-      {isVisible === "inicio" ? <Inicio /> : <CrearPlantilla />}
+      <CrearPlantilla
+        fetchFiles={fetchFiles}
+        submit={submit} // Pasar submit como prop
+        setSubmit={setSubmit} // Pasar setSubmit como prop para resetearlo
+      />
     </MainLayout>
   );
 };
