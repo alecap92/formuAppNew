@@ -1,5 +1,4 @@
-import { handleResponseError } from "./requester";
-import axiosConfig from "./axiosConfig";
+import axiosConfig, { handleResponseError } from "./axiosConfig";
 
 // Función para registrar un nuevo usuario
 export const registerUser = async (

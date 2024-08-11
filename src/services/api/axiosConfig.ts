@@ -1,9 +1,8 @@
-// src/api/requester.ts
 import axios from "axios";
 
 // Crear una instancia de axios con configuración predeterminada
 const apiClient = axios.create({
-  baseURL: "http://localhost:3002/api", // Reemplaza esto con la URL base de tu API
+  baseURL: process.env.REACT_APP_API_URL,
   headers: {
     "Content-Type": "application/json",
   },
@@ -34,7 +33,7 @@ apiClient.interceptors.response.use(
 );
 
 // Función para manejar errores de respuesta
-const handleResponseError = (error: any) => {
+export const handleResponseError = (error: any) => {
   // Puedes agregar lógica para manejar errores aquí
   console.error("API call error:", error);
   throw error;
